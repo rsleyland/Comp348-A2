@@ -4,4 +4,4 @@
           ((or (< (car lst) (car (car (cdr lst)))) (> (car lst) (car (car (cdr (cdr lst)))))) nil)
           (t (progn (is-bst (car (cdr lst))) (is-bst (car (cdr (cdr lst)))))))))
 
-;(write (is-Bin-Tree '(8 (5 (4) (7)) (11 (9) (12)))))
+;(write (is-bst '(8 (5 (4) (7)) (11 (9) (12)))))
