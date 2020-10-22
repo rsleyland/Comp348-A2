@@ -1,4 +1,4 @@
-(defun is-Bin-Tree(lst)
+(defun is-bst(lst)
     (if (null lst) t
     (cond ((or (null (car (cdr lst))) (null (car (cdr (cdr lst)))))  )
           ((or (< (car lst) (car (car (cdr lst)))) (> (car lst) (car (car (cdr (cdr lst)))))) nil)
