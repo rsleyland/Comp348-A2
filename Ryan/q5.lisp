@@ -7,6 +7,6 @@
          (loop while (not (null lst)) do
                (if (null (car lst)) (setf lst (cdr lst))
                (progn (setf nl2 (append nl2 (list(car lst))))
-               (setf lst (cdr lst)))))
+                (setf lst (cdr lst)))))
          (list nl1 nl2)))
 ;(write (split-list '(1 (2 3) 4 5 6)))
