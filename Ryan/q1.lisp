@@ -6,3 +6,5 @@
     (if (or (> from to) (< from 1)) nil
     (if (> from 1) (sub-list (cdr lst) (- from 1) (- to 1))
         (if (<= from to) (cons (car lst) (sub-list (cdr lst) from (- to 1)))))))))
+
+;; could make much simpler if allowed to used (length) built in function
