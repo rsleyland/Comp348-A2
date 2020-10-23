@@ -1,11 +1,15 @@
-(defun sub-list (lst from to)
-    (let ((x to) (temp lst))
-         (loop while (not (null (car temp))) do
-            (setf x (- x 1)) (setf temp (cdr temp)))
-         (if (> x 0) nil
-    (if (or (> from to) (< from 1)) nil
-    (if (> from 1) (sub-list (cdr lst) (- from 1) (- to 1))
-        (if (<= from to) (cons (car lst) (sub-list (cdr lst) from (- to 1)))))))))
+(defun sub-list(lst a b)
+    (let ((x b) (y lst))
+         (loop while (> x 1) do
+               (setf y (cdr y))
+               (setf x (- x 1)))
+         (if (or (null y) (< a 1)) nil
+    (cond 
+        ((> a 1) (sub-list (cdr lst) (- a 1) (- b 1)))
+        ((<= a b) (cons (car lst) (sub-list (cdr lst) a (- b 1))))))))
+
+
+;(write (sub-list '(a b c d) 1 4))
 
 ; much simpler if allowed to used (length) built in function
 
