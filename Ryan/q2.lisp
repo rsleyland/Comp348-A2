@@ -1,5 +1,5 @@
 (defun sub-list2(lst &optional (a 1) (b (list-length lst)))
-        (if (eql a nil) (setf a b))
+        (if (eql a nil) (setf a b))     ;added these two if statements to deal with (sub-list '(1 6 12) nil 1) --> (1)
         (if (eql b nil) (setf b a))
         (if (or (< b 1) (< a 1) (> b (list-length lst))) nil
     (cond 
