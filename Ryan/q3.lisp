@@ -1,8 +1,13 @@
-(defun flatten(lst)
-    (if (null lst) nil
-        (cond ((listp (car lst)) (append (flatten (car lst)) (flatten (cdr lst))))
-              ((not (numberp (car lst))) (flatten (cdr lst)))
-              (t (append (cons (car lst) (flatten (cdr lst))))))))
-;(write(flatten '(1 2 (3 1) (a 2.5) ((1 2)))))
-
-;NEED TO REMOVE DUPLICATES
+(defun flatten_(lst)
+    (cond ((null lst) nil)
+          ((numberp (car lst)) (cons (car lst) (flatten_ (cdr lst))))
+          ((listp (car lst)) (append (flatten_ (car lst)) (flatten_ (cdr lst))))
+          ((not (numberp (car lst))) (flatten_ (cdr lst)))))
+(defun remove-dupes(lst)
+    (cond ((null lst) nil)
+        ((member (car lst) (cdr lst)) (remove-dupes(cdr lst)))
+        (t (cons (car lst) (remove-dupes (cdr lst))))))
+(defun flatten (lst)
+    (sort (remove-dupes (flatten_ lst)) '<))
+;(write (flatten '(1 2 (3 1) (5 ('c 1 () b (12.2 25))))))
+;(write (flatten '((1 3) a (b 4 (d 6)))))
