@@ -7,8 +7,6 @@
     (cond 
         ((> a 1) (sub-list (cdr lst) (- a 1) (- b 1)))
         ((<= a b) (cons (car lst) (sub-list (cdr lst) a (- b 1))))))))
-
-
 ;(write (sub-list '(a b c d) 1 4))
 
 ; much simpler if allowed to used (length) built in function
