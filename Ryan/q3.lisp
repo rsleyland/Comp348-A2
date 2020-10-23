@@ -9,5 +9,5 @@
         (t (cons (car lst) (remove-dupes (cdr lst))))))
 (defun flatten (lst)
     (sort (remove-dupes (flatten_ lst)) '<))
-;(write (flatten '(1 2 (3 1) (5 ('c 1 () b (12.2 25))))))
-;(write (flatten '((1 3) a (b 4 (d 6)))))
+;(write (flatten '(1 2 (3 1) (5 ('c 1 () b (12.2 25)))))) --> (1 2 3 5 12.2 25)
+;(write (flatten '((1 3) a (b 4 (d 6))))) --> (1 3 4 6)
