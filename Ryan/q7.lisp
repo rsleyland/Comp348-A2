@@ -14,9 +14,9 @@
 
 (defun triangle (num)
     (if (or (not (integerp num)) (zerop num)) (princ "Error message - input is invalid!")
-    (cond ((> num 1) (triangle-left num));;run left alignment
+    (cond ((>= num 1) (triangle-left num));;run left alignment
           ((< num 0) (triangle-right num));run right alignment
         )))
 
-;(triangle 5)(terpri)
-;(triangle -5)
+;(triangle -5)(terpri)
+;(triangle 5)
