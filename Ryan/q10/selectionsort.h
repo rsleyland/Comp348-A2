@@ -1,1 +1,1 @@
-void selectionsort(int* arr, int size);
+void selectionsort(int*, int);
