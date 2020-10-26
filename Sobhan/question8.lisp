@@ -1,5 +1,5 @@
 (defun lucas (n)
-    (cond 
+    (cond
         ((zerop n) ())
         ((= n 1) '(2))
         ((= n 2) '(1 2))
@@ -9,4 +9,15 @@
                 (lucas (- n 1))))))
 
 (defun lucasNum (n)
-    (reverse (lucas n)))
+    (cond
+        ((not (numberp n)) (format t "Error. Not defined for non-number inputs."))
+        ((not (integerp n)) (format t "Error. Not defined for floating point inputs."))
+        ((< n 0) (format t "Error. Not defined for negative numbers.")) 
+        (t (reverse (lucas n)))))
+
+;(print (lucasNum -1))
+;(print (lucasNum 0))
+;(print (lucasNum 3))
+;(print (lucasNum 'a))
+;(print (lucasNum "General Kenobi"))
+;(print (lucasNum 1.5))
