@@ -19,3 +19,17 @@ void selectionsort(int* arr, int size){
         count_unsorted--;//keep track of how many elements in unsorted sublist
     }
 }
+
+
+// They are similar but choose which one you like best
+void selectionsort(int *arr, int size)
+{
+  for (int i = 0; i < size; i++)
+  {
+    int *el = arr + i;
+    int *min = findmin(el, size - i);
+    int temp = *min;
+    *min = *el;
+    *(arr + i) = temp;
+  }
+}
