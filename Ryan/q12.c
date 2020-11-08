@@ -7,25 +7,31 @@ static int* findmax(int* arr, int size);
 
 int main() {
 
-    //User prompt and input of array size
-    int size;
-    printf("Enter size of array to create: ");
-    scanf("%d", &size);
-
-    //Dynamic allocation of array in memory - checks that != NULL - infers that memory is full
     int *arr;
-    arr = (int *)malloc(sizeof(int)*size); //sizeof is a compile time unary operator (not apart of inc libs)
+    int size =0;
+    int number;
+    char another;
+    //Dynamic allocation of array in memory - checks that != NULL - infers that memory is full
+    arr = (int *)malloc(sizeof(int));
     if (arr == NULL) {
         printf("SYSTEM OUT OF MEMORY, PROGRAM CLOSING.\n");
         return 1;
     }
-
-    //User prompts & inputs of numbers to be stored in array (arr)
-    for (int i =0; i<size;i++){
-        printf("Enter number #%d: ", i+1);
-        int temp;
-        scanf("%d", &temp);
-        arr[i] = temp;
+    printf("Enter first number: ");
+    scanf("%d", &number);
+    arr[size++] = number;
+    while (1){
+        printf("Enter next number: ");
+        scanf("%d", &number);
+        arr=(int*)realloc(arr, sizeof(int)*(size+1));
+        if (arr == NULL) {
+            printf("SYSTEM OUT OF MEMORY, PROGRAM CLOSING.\n");
+            return 1;
+        }
+        arr[size++] = number;
+        printf("Add another #? (y/n): ");
+        scanf("\n%c", &another);
+        if (another=='n') break;
     }
 
     //Passing pointer to findmin function to selectionsort (Ascending order)
