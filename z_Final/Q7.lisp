@@ -1,21 +1,19 @@
-(defun triangle (n)
-    (cond
-        ((not (numberp n)) (format t "error, n must be a number"))      ; checks for number
-        ((zerop n) (format t "error, n must not be zero"))              ; checks for 0
-        ((not (integerp n)) (format t "error, n must be an integer"))   ; checks for non-int
-        (t (private_triangle n n))))                                    ; calls main function
+ (defun triangle-left (input)
+    (cond ((> input 1) (progn (let ((n input)) (loop while (> n 0) do (princ "*") (setf n (- n 1)))) (terpri) (triangle-left (- input 1))))
+           (t (princ "*"))))
 
-(defun private_triangle (init curr)                 ; init = original num, curr = current num
-    (cond
-        ((plusp curr)
-            (dotimes (i curr)                       ; prints *
-                (write '*))
-            (terpri)                                ; new line
-            (private_triangle init (- curr 1)))     ; does recursion while decrementing curr (I dislike loops in Lisp)
-        (t 
-            (dotimes (i (- curr init))              ; prints the spaces
-                (format t " "))
-            (dotimes (i (abs curr))                 ; prints *
-                (write '*))
-            (terpri)                                ; new line
-            (private_triangle init (+ curr 1)))))   ; recursion (No seriously, the loops are annoying.)
+(defun triangle-right (input)
+    (let ((x input))
+         (loop while (< x 0) do
+               (dotimes (a (- x input))
+                     (princ " "))
+                (dotimes (a (abs x))
+                     (princ "*"))
+               (terpri)
+               (setf x (+ x 1)))))
+
+(defun triangle (num)
+    (if (or (not (integerp num)) (zerop num)) (princ "Error message - input is invalid!")
+    (cond ((>= num 1) (triangle-left num));;run left alignment
+          ((< num 0) (triangle-right num));run right alignment
+        )))
