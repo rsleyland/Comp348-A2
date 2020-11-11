@@ -1,15 +1,12 @@
 #include <stdio.h>
 #include "selectionsort.h"
-#include "selectionsort.h" //included twice 
-int main(void)
-{
-    int arr[] = {1, 4, 0, -45, 6, -1, -12};
-    selectionsort(arr, 7);
-    int a;
-    for (a=0; a<7; a++) printf("%d ", arr[a]);
+#include "selectionsort.h"
+
+int main() {
+    int arr[] = {-10, 4, -25, 5, 6, -1};
+    selectionsort(arr,6);
+    for (int i =0; i<6;i++){
+        printf("%d ", arr[i]);
+    }
     return 0;
 }
-
-// TO COMPILE 
-//-> gcc selectionsort.c main.c 
-//-> ./a.out
