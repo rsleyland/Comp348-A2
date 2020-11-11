@@ -1,9 +1,16 @@
-(defun lucas_(n) 
+(defun lucas (n)
     (cond
-        ((or (not (integerp n)) (<= n 0)) nil) ;lucas[0] = 2 & lucas[1] = 1
-        ((= n 1) (list 2))
-        ((= n 2) (list 1 2))
-        (t (cons (+ (car (lucas_ (1- n))) (cadr (lucas_ (1- n)))) (lucas_ (1- n))))))
+        ((zerop n) ())
+        ((= n 1) '(2))
+        ((= n 2) '(1 2))
+        (t  
+            (cons 
+                (+ (car (cdr (lucas (- n 1)))) (car (lucas (- n 1))))
+                (lucas (- n 1))))))
 
-(defun lucas(n)
-    (reverse (lucas_ n)))
+(defun lucasNum (n)
+    (cond
+        ((not (numberp n)) (format t "Error. Not defined for non-number inputs."))
+        ((not (integerp n)) (format t "Error. Not defined for floating point inputs."))
+        ((< n 0) (format t "Error. Not defined for negative numbers.")) 
+        (t (reverse (lucas n)))))
