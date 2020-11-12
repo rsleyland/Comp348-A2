@@ -4,19 +4,19 @@
 #define TRUE 1
 #define FALSE 0
 struct Node{
-    char data[255];
+    char data[256];
     struct Node * next;
 };
-struct Node * head = NULL;
+struct Node * dictionary = NULL;
 
 void insert_dictionary_order(char* word);
-void printlist();
+void print_list();
 void process_user_input();
 
 int main(void){
 
     process_user_input();
-    printlist();
+    print_list();
     return 0;
 }
 
@@ -26,19 +26,19 @@ void insert_dictionary_order(char* word) {
         printf("No Memory available! Program Closing!");
         exit(1);
     }
-    strncpy(temp->data, word, 255);
+    strncpy(temp->data, word, 256);
 
-    if (head==NULL){ //empty list - need to add head!
+    if (dictionary==NULL){ //empty list - need to add head!
         temp->next = NULL;
-        head = temp;
+        dictionary = temp;
     }
-    else if (strcasecmp(temp->data, head->data)<0){ //less than head so need to replace head
-        temp->next = head;
-        head = temp;
+    else if (strcasecmp(temp->data, dictionary->data)<0){ //less than head so need to replace head
+        temp->next = dictionary;
+        dictionary = temp;
     }
     else { //iterate through until find correct spot or end of linked list
-        struct Node * iter = head;
-        struct Node * next = head->next;
+        struct Node * iter = dictionary;
+        struct Node * next = dictionary->next;
         int finished = FALSE;
 
         while(!finished){
@@ -60,8 +60,8 @@ void insert_dictionary_order(char* word) {
     }
 }
 
-void printlist(){
-    struct Node * iter = head;
+void print_list(){
+    struct Node * iter = dictionary;
     int printcount =0;
     while(iter){
         printf("%s -> ", iter->data);
@@ -77,55 +77,24 @@ void printlist(){
 
 void process_user_input(){
     while (TRUE){
+        int count = 0;
         printf("Enter strings ('.' to stop) : ");
-        char line[255];
-        fgets(line, 255, stdin);
+        char line[256];
+        fgets(line, 256, stdin);
         if (strcmp(line, ".\n")==0){
             break;
         }
-        
-        char newString[20][20];
-        int j=0; int ctr=0;
-        for(int i=0;i<=(strlen(line));i++)
-        {
-            // if space or NULL found, assign NULL into newString[ctr]
-            if(line[i]==' '||line[i]=='\0'||line[i]=='\t'||line[i]=='\n')
-            {
-                newString[ctr][j]='\0';
-                ctr++;  //for next word
-                j=0;    //for next word, init index to 0
+        char * lineptr = line;
+        while(*lineptr!='\0'){
+            if(*lineptr==' '||*lineptr=='\t'||*lineptr=='\n') {
+                lineptr++;
+                continue;
             }
-            else
-            {
-                newString[ctr][j]=line[i];
-                j++;
-            }
+            char newString[256];
+            sscanf(lineptr, "%s", newString);
+            int length = strlen(newString);
+            lineptr += length+1;
+            insert_dictionary_order(newString);
         }
-        for(int i=0;i < ctr-1;i++) {
-            if (newString[i]) {
-                insert_dictionary_order(newString[i]);
-            }
-        }
-        
-//         int ptr = 0;
-//         int wptr = 0;
-//         char word[256];
-
-//         while (line[ptr] != '\0') {
-//             char c[1];
-//             sscanf(&line[ptr], "%c", c);
-//             if ((c[0] == ' ') || (c[0] == '\t') || (c[0] == '\n')) {
-//                 if (strlen(word) > 0) {
-//                     insert_dictionary_order(word);
-//                     wptr = 0;
-//                     memset(word, '\0', 256);
-//                 }
-//             } else {
-//                 char *p = word + wptr;
-//                 strcpy(p, c);
-//                 wptr++;
-//             }
-//             ptr++;
-//         }
     }
 }
