@@ -15,7 +15,7 @@
             (or (null (third tree)) (> (car (third tree)) (car tree)) ))  ; right child greater than root or is empty
             (and (binary_search_tree (second tree)) (binary_search_tree (third tree)) ;both true, do recursion
                 (apply #'>= (car tree) (sort (straight (second tree)) #'>=))    ;makes sure left tree is smaller than or equal to root
-                (apply #'< (car tree) (sort (straight (third tree)) #'<))))))  ;makes sure right tree is greater than root
+                (apply #'<= (car tree) (sort (straight (third tree)) #'<))))))  ;makes sure right tree is greater than root
 
 
 
