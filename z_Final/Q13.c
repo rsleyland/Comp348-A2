@@ -83,6 +83,7 @@ void process_user_input(){
         if (strcmp(line, ".\n")==0){
             break;
         }
+        
         char newString[20][20];
         int j=0; int ctr=0;
         for(int i=0;i<=(strlen(line));i++)
@@ -105,5 +106,26 @@ void process_user_input(){
                 insert_dictionary_order(newString[i]);
             }
         }
+        
+//         int ptr = 0;
+//         int wptr = 0;
+//         char word[256];
+
+//         while (line[ptr] != '\0') {
+//             char c[1];
+//             sscanf(&line[ptr], "%c", c);
+//             if ((c[0] == ' ') || (c[0] == '\t') || (c[0] == '\n')) {
+//                 if (strlen(word) > 0) {
+//                     insert_dictionary_order(word);
+//                     wptr = 0;
+//                     memset(word, '\0', 256);
+//                 }
+//             } else {
+//                 char *p = word + wptr;
+//                 strcpy(p, c);
+//                 wptr++;
+//             }
+//             ptr++;
+//         }
     }
 }
