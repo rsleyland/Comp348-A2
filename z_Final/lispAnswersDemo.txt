@@ -1,0 +1,148 @@
+;;-----------------------------Q1-----------------------------
+(defun sub-list(lst a b)
+    (let ((x b) (y lst))
+         (loop while (> x 1) do
+               (setf y (cdr y))
+               (setf x (- x 1)))
+         (if (or (null y) (< a 1)) nil
+    (cond 
+        ((> a 1) (sub-list (cdr lst) (- a 1) (- b 1)))
+        ((<= a b) (cons (car lst) (sub-list (cdr lst) a (- b 1))))))))
+
+;(write (sub-list '(a b c d e f) 1 2))
+
+;;-----------------------------Q2-----------------------------
+(defun sub-list(lst &optional (a 1) (b (list-length lst)))
+        (if (and (eql a nil) (eql b nil)) (progn (setf a 0) (setf b 0)))
+        (if (eql a nil) (setf a b))
+        (if (eql b nil) (setf b a))
+        (if (or (< b 1) (< a 1) (> b (list-length lst)) ) nil
+    (cond 
+        ((> a b) (progn 
+                     (setq tempa a) (setq tempb b) (setf b (+ tempa 1 (- (length lst) tempa tempb))) (setf a (+ tempb 1 (- (length lst) tempa tempb)))
+                     (setf lst (reverse lst)) (sub-list lst a b)))
+        ((> a 1) (sub-list (cdr lst) (- a 1) (- b 1)))
+        ((<= a b) (cons (car lst) (sub-list (cdr lst) a (- b 1)))))))
+        
+ ;(write (sub-list '(1 6 12 15 16) 5 2))
+
+;;-----------------------------Q3-----------------------------
+(defun flatten(lst)
+    (cond
+        ((or (not (listp lst)) (null lst)) nil)
+        ((listp (car lst)) (append (flatten (car lst)) (flatten (cdr lst))))
+        ((numberp (car lst)) (remove-dupes (reverse (cons (car lst) (flatten (cdr lst))))))
+        (t (flatten (cdr lst)))))
+
+(defun remove-dupes(lst)
+    (cond
+        ((null lst) nil)
+        ((member (car lst) (cdr lst)) (remove-dupes(cdr lst)))
+        (t (append (remove-dupes (cdr lst)) (list(car lst))))))
+
+;(write (flatten '(1 2 (3 1) (a 2.5) (2 4.5) ((1 2)))))
+
+;;-----------------------------Q4-----------------------------
+(defun binary_search_tree (tree)
+    (cond
+        ((null tree) t)             ;if empty tree, then it is technically a binary search tree
+        ((not (is_tree tree)) nil)  ;error if not a binary tree
+        ((is_leaf tree) t)          ;if we reached a leaf node, return true
+        ((and
+            (or (null (second tree)) (<= (car (second tree)) (car tree)) )     ;left child less than or equal to root or is empty
+            (or (null (third tree)) (> (car (third tree)) (car tree)) ))  ; right child greater than root or is empty
+            (and (binary_search_tree (second tree)) (binary_search_tree (third tree)) ;both true, do recursion
+                (apply #'>= (car tree) (sort (straight (second tree)) #'>=))    ;makes sure left tree is smaller than or equal to root
+                (apply #'<= (car tree) (sort (straight (third tree)) #'<))))))  ;makes sure right tree is greater than root
+
+
+(defun is_tree (tree)
+    (cond
+        ((equal 3 (list-length tree)) t)
+        (t nil)))
+
+(defun is_leaf (node)
+    (cond
+        ((and (null (second node)) (null (third node))) t)
+        (t nil)))
+
+(defun straight (lst)
+    (cond
+        ((null lst) ())
+        ((listp (car lst)) (append (straight (car lst)) (straight (cdr lst))))
+        (t (cons (car lst) (straight (cdr lst))))))
+
+;(print (binary_search_tree '(8 (3 (1 () ()) (6 (4 () ())(7 () ()))) (10 () (14 (13 () ()) ()))) ))
+
+;;-----------------------------Q5-----------------------------
+(defun split (lst)
+    (if (not (listp lst))
+        nil
+        (progn
+            (setq half_length (floor (+ (list-length lst) 1 ) 2))
+            (setq half1 ())
+            (setq lst1 lst)
+            (dotimes (n half_length)
+                (setf half1 (append half1 (list (car lst1)) ))
+                (setf lst1 (cdr lst1)))
+           (list half1 lst1))))
+
+;(write (split '(a b c d e)))
+
+;;-----------------------------Q6-----------------------------
+(defun make-cbtree (lst &optional (position 1))
+    (cond ((< position 1) nil)
+        ((> position (length lst)) ())
+        (t (progn
+            (setf sublist lst)
+            (loop for i from 2 to position
+                do (setf sublist (cdr sublist)))
+            (cons (first sublist) (list (make-cbtree lst (* position 2)) (make-cbtree lst (+ (* position 2) 1) )))
+        ))
+    )
+)
+;(write (make-cbtree '(8 3 4 9 2 32)))
+
+;;-----------------------------Q7-----------------------------
+(defun triangle-left (input)
+    (cond ((> input 1) (progn (let ((n input)) (loop while (> n 0) do (princ "*") (setf n (- n 1)))) (terpri) (triangle-left (- input 1))))
+           (t (princ "*"))))
+
+(defun triangle-right (input)
+    (let ((x input))
+         (loop while (< x 0) do
+               (dotimes (a (- x input))
+                     (princ " "))
+                (dotimes (a (abs x))
+                     (princ "*"))
+               (terpri)
+               (setf x (+ x 1)))))
+
+(defun triangle (num)
+    (if (or (not (integerp num)) (zerop num)) (princ "Error message - input is invalid!")
+    (cond ((>= num 1) (triangle-left num));;run left alignment
+          ((< num 0) (triangle-right num));run right alignment
+        )))
+
+;(triangle 6)
+
+;;-----------------------------Q8-----------------------------
+
+(defun lucas (n)
+    (cond
+        ((zerop n) ())
+        ((= n 1) '(2))
+        ((= n 2) '(1 2))
+        (t  
+            (cons 
+                (+ (car (cdr (lucas (- n 1)))) (car (lucas (- n 1))))
+                (lucas (- n 1))))))
+
+(defun lucasNum (n)
+    (cond
+        ((not (numberp n)) (format t "Error. Not defined for non-number inputs."))
+        ((not (integerp n)) (format t "Error. Not defined for floating point inputs."))
+        ((< n 0) (format t "Error. Not defined for negative numbers.")) 
+        (t (reverse (lucas n)))))
+
+;(write (lucasNum 6))
